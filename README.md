@@ -1,94 +1,101 @@
 # my_beginner_tutorials
 
-## Project Overview
-This repository hosts a custom package designed for the ROS2 Humble distribution. It includes a basic publisher node, showcasing essential ROS2 capabilities for inter-node communication and topic handling.
+## Overview
+This project provides beginner-level tutorials for ROS 2 Humble, featuring a simple publisher-subscriber setup to demonstrate core ROS 2 functionalities. It includes a Talker node that publishes messages to a topic and a Listener node that subscribes to that topic. Additionally, a service in the Talker node allows dynamic modification of the published message, while comprehensive logging across all five ROS 2 logging levels (DEBUG, INFO, WARN, ERROR, FATAL) provides detailed output. A launch file enables users to configure parameters, such as publish frequency, through command-line arguments, making this package a practical introduction to ROS 2 basics.
 
-## Author Information
-Created by Dhairya Shah (dshah05@umd.edu)
+## Author 
+Dhairya Shah (dshah05@umd.edu)
 
-## Requirements
-- ROS2 Humble installed and configured
-- Colcon build system
-- C++17 or newer compiler for compatibility
+## Prerequisites
+- ROS2 Humble installed
+- Colcon build tool
+- C++17 compatible compiler
 
-## Installation and Setup Instructions
+## Installation and building the setup
 
-### Setting up the Workspace
+1. **Setup the folder structure**
+    ```bash 
+    cd 
+    mkdir -p ros2_ws/src/beginner_tutorials 
+    cd ~/ros2_ws/src/beginner_tutorials 
+    ```
 
-Start by setting up the workspace directory structure as follows:
+2. **Download the Source Code from the Release(either zip or tar.gz)**
+    Unzip the file and paste the contents of the folder into this directory - `ros2_ws/src/beginner_tutorials`
 
-```bash
-cd ~
-mkdir -p ros2_ws/src/my_custom_ros_package
-cd ~/ros2_ws/src/my_custom_ros_package
-```
+3. **Check for Missing Dependencies Before Building**
 
-### Downloading the Source Files
+    To run rosdep in the root of the workspace: 
 
-Download the source files from the latest Release, either in `.zip` or `.tar.gz` format. After downloading, extract and move the contents into `ros2_ws/src/my_custom_ros_package`.
+    ```sh
+    cd ~/ros2_ws 
+    rosdep install -i --from-path src --rosdistro humble -y
+    ```
 
-### Dependency Installation
+4. **Build the package**
+    Use colcon to build the package 
 
-Before building, use `rosdep` to ensure all dependencies are properly installed. Run this command in the workspace root:
+    ```sh
+    colcon build --packages-select beginner_tutorials
+    ```
 
-```bash
-cd ~/ros2_ws
-rosdep install -i --from-path src --rosdistro humble -y
-```
+5. **Source the setup**
 
-### Building the Package
+    Source the script setup to overlay this workspace on the environment 
+    ```sh
+    source install/setup.bash
+    ```
 
-With dependencies resolved, use Colcon to build the package:
+## Running the Package 
 
-```bash
-colcon build --packages-select my_custom_ros_package
-```
+1. **Running the publisher node** 
 
-### Sourcing the Workspace
+    To run the talker node, run the following command 
 
-After building, source the setup script to overlay this workspace onto your environment. This step is essential to ensure ROS2 recognizes the package:
+    ```bash
+    ros2 run beginner_tutorials talker --ros-args --log-level debug
+    ```
 
-```bash
-source install/setup.bash
-```
+2. **Running the subscriber node**
 
-## Running the Package
+    To run the subscriber node, run the following command 
+    ```bash
+    ros2 run beginner_tutorials listener --ros-args --log-level debug
+    ```
+3. **Running the server client node**
 
-### Executing the Publisher Node
+    To run the server_client node with a custom output, use the following command:
 
-To launch the publisher node, which sends messages to a designated topic, run:
+    ```bash
+    ros2 run beginner_tutorials server_client "Changed Output" --ros-args --log-level debug
+    ```
 
-```bash
-ros2 run my_custom_ros_package publisher_node
-```
+## Run the same with launch file
 
-### Executing the Subscriber Node
+**Launching with custom parameters**
 
-In a new terminal, source the setup script again and run the following command to start the subscriber node, which listens for messages from the publisher:
-
-```bash
-# Open a new terminal and source the environment
-source ~/ros2_ws/install/setup.bash
-ros2 run my_custom_ros_package subscriber_node
-```
-
-## Node Details
-
-### Publisher Node (`publisher_node`)
-The publisher node is responsible for broadcasting messages to the topic `example_topic`. It continuously sends predefined or generated messages at a set interval.
-
-### Subscriber Node (`subscriber_node`)
-The subscriber node receives messages from the topic `example_topic` and prints the contents to the console, demonstrating message subscription functionality.
-
-## Code Style and Linting
-
-This project follows the Google C++ Style Guide. `cpplint` was used to ensure style compliance, with results saved in `cpplint_report.txt`.
-
-To run `cpplint` manually, use the command:
+To launch the nodes with a custom launch file and parameters, use the following command:
+(Modify the frequency as required)
 
 ```bash
-find src -name "*.cpp" | xargs cpplint 2>&1 | tee cpplint_report.txt
+    ros2 launch beginner_tutorials custom_launch.yaml frequency:=1
 ```
+Make sure the frequency value entered is an integer. This will launch publisher and subscriber nodes and server node within the publisher. The server client needs to be called separately for editing the message (Follow Step #4: Running the service client).
+
+
+## About the Nodes
+
+### Talker Node
+The `talker` node publishes messages to the `/topic` topic. It serves as the primary publisher, broadcasting a customizable string message that can be modified by requests from the `server_client` node.
+
+### Listener Node
+The `listener` node subscribes to the `/topic` topic. It receives and displays the messages published by the `talker` node, ensuring real-time monitoring of any changes in the message content.
+
+### Server Client Node
+The `server_client` node functions as a client that sends requests to modify the message published by the `talker` node. By interacting with the server, it can update the base string that the `talker` node broadcasts to the `/topic` topic.
+
+### Server Node
+The `server` node, embedded within the `talker` node, listens for requests from the `server_client` node. Upon receiving a request, it updates the message string that the `talker` node publishes, allowing dynamic changes to the content broadcasted on the `/topic` topic.
 
 ## Additional Resources
 
@@ -97,3 +104,7 @@ To learn more about ROS2 basics, including publishing and subscribing, visit the
 ## License Information
 This project is licensed under the Apache 2.0 License. For more information, see the LICENSE file included in this repository.
 
+## Acknowledgements 
+
+- Open Source Robotics Foundation, Inc.
+- ROS2 Community
