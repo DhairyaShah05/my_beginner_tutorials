@@ -122,7 +122,7 @@ class MinimalPublisher : public rclcpp::Node {
   rclcpp::Service<beginner_tutorials::srv::ChangeString>::SharedPtr service_;
 
   ///< Message to be published, updated by the service.
-  std::string service_response_message{" Hi, This is Swaraj"};
+  std::string service_response_message{" Hi, This is Dhairya Shah"};
 
   ///< Counter for the number of messages published.
   size_t count_;

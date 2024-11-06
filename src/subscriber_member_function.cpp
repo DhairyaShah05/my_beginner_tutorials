@@ -1,5 +1,6 @@
 /**
  * Apache 2.0 License
+ * CopyRight 2024 Dhairya Shah
  * @file subscriber_member_function.cpp
  * @brief Subscriber class that creates a subscriber for the service node
  * @version 1.0

@@ -1,5 +1,6 @@
 /**
  * Apache 2.0 License
+ * CopyRight 2024 Dhairya Shah
  * @file server_client.cpp
  * @brief ServiceClient class that creates a client for the service node
  * @author DHairya Shah
