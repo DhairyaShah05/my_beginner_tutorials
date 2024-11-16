@@ -3,22 +3,28 @@
 <package format="3">
   <name>beginner_tutorials</name>
   <version>0.0.0</version>
-  <description>This Package demonstrates a simple ROS2 Client Service</description>
+  <description>ROS2 Beginner Tutorials </description>
   <maintainer email="dshah05@umd.edu">Dhairya</maintainer>
-  <license>Apache-2.0</license>
+  <license>Apache-2</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
   <depend>rclcpp</depend>
   <depend>std_msgs</depend>
   <depend>ros2launch</depend>
+  <depend>tf2</depend>
+  <depend>geometry_msgs</depend>
+  <depend>tf2_ros</depend>
+  <depend>rosbag2_cpp</depend>
+  <depend>example_interfaces</depend>
+
 
   <buildtool_depend>rosidl_default_generators</buildtool_depend>
   <exec_depend>rosidl_default_runtime</exec_depend>
   <member_of_group>rosidl_interface_packages</member_of_group>
 
-  <test_depend>ament_lint_auto</test_depend>
-  <test_depend>ament_lint_common</test_depend>
+  <depend>ament_lint_auto</depend>
+  <depend>ament_lint_common</depend>
   
   <export>
     <build_type>ament_cmake</build_type>
